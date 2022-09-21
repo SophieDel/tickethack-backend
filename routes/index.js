@@ -1,5 +1,4 @@
 var express = require('express');
-const data = require('../../../../lacapsule-fullstack-js/week4/stockmanager/data');
 var router = express.Router();
 const Trip = require("../models/trips")
 
