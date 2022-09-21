@@ -2,21 +2,23 @@ var express = require('express');
 var router = express.Router();
 const Trip = require("../models/trips")
 const Cart = require("../models/carts")
+var ObjectId = require('mongoose').Types.ObjectId;
 
 router.post("/", async function(req, res) {
-    const filteredCart = Cart.findOne({id: req.body.id})
-    if (!filteredCart){
-        res.json({result: false, error: "Trip already added in Cart"})
+    const filteredCart = await Cart.findOne({trip: req.body.id})
+    if (filteredCart && filteredCart != null){
+        res.json({result: false, error: "Trip already added in cart"})
     } else {
-        const addedTrip = Trip.findOne({id: req.body.id})
+        const addedTrip = await Trip.findById({_id: req.body.id})
         const newTrip = new Cart({
             departure: addedTrip.departure,
             arrival: addedTrip.arrival,
             date: addedTrip.date,
-            price: addedTrip.price
+            price: addedTrip.price,
+            isPaid: true,
+            trip: addedTrip.id
         })
         newTrip.save().then(data => {
-            console.log(data)
             res.json({result: true, message: "Trip sucessfully added to the cart !"})
         }
         )
