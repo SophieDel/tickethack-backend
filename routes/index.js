@@ -10,7 +10,7 @@ function checkDate(db, date) {
   return (db.date.getYear() == date.getYear() && db.date.getMonth() == date.getMonth() && db.date.getDate() == date.getDate())
 }
 
-router.post('/home', function(req, res) {
+router.post('/search', function(req, res) {
   const {departure, arrival, date} = req.body
   Trip.find({departure: departure, arrival: arrival}).then(data => {
     if (!data){
