@@ -12,6 +12,7 @@ function checkDate(db, date) {
 
 router.post('/search', function(req, res) {
   const {departure, arrival, date} = req.body
+  console.log(req.body)
   Trip.find({departure: departure, arrival: arrival}).then(data => {
     if (!data){
       res.json({result: false, error: "No trips found"})

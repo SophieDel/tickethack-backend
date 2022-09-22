@@ -2,7 +2,18 @@ var express = require('express');
 var router = express.Router();
 const Trip = require("../models/trips")
 const Cart = require("../models/carts")
-var ObjectId = require('mongoose').Types.ObjectId;
+
+
+router.get("/", function(req, res) {
+    Cart.find({}).then(data => {
+        if (data && data.length > 0){
+            res.json({result: true, bookings: data})
+        } else {
+            res.json({result: false, error: "No trip yet."})
+        }
+    }
+    )
+})
 
 router.post("/", async function(req, res) {
     const filteredCart = await Cart.findOne({trip: req.body.id})
